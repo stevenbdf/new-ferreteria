@@ -7,7 +7,7 @@
         </template>
 
         <template slot="end">
-            <b-navbar-dropdown label="name user">
+            <b-navbar-dropdown :label="profile.full_name">
                 <b-navbar-item href="#">
                     Perfil
                 </b-navbar-item>
@@ -18,3 +18,9 @@
         </template>
     </b-navbar>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+export default {
+    computed: mapGetters("auth",["profile"]),
+}
+</script>
