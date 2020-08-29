@@ -5,6 +5,7 @@ import Vuex from "vuex";
 import authModule from "./modules/auth";
 import customersModule from "./modules/customers"
 import productsModule from "./modules/products"
+import officesModule from "./modules/offices"
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -15,6 +16,7 @@ const createStore = new Vuex.Store({
     auth: authModule,
     customers: customersModule,
     products: productsModule,
+    offices: officesModule,
   },
   strict: debug,
 });

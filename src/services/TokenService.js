@@ -1,4 +1,4 @@
-
+import axios from 'axios'
 import Cookies from 'js-cookie'
 
 const DATA_KEY = "data"
@@ -14,6 +14,7 @@ export default {
   setToken(token) {
     Cookies.set(DATA_KEY,token, { expires: null })
     Cookies.set(TOKEN_KEY,token.token, { expires: null })
+    axios.defaults.headers.common = {'Authorization': `bearer ${token.token}`}
   },
   removeToken(){
     Cookies.remove(DATA_KEY)

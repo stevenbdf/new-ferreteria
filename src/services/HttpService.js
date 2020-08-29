@@ -1,5 +1,5 @@
 import axios from 'axios'
-import token from '@/services/TokenService'
+import token from './TokenService'
 
 axios.defaults.baseURL = process.env.VUE_APP_BASE_URL
 axios.defaults.headers.common = {'Authorization': `bearer ${token.getToken()}`}

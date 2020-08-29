@@ -120,14 +120,17 @@
           <b-field grouped>
             <b-field>
               <b-radio v-model="fact_type"
+                  @input="noFact = fact_invoice"
                   native-value="0">
                   Resivo
               </b-radio>
               <b-radio v-model="fact_type"
+                  @input="noFact = fact_credential"
                   native-value="1">
                   Credito Fiscal
               </b-radio>
               <b-radio v-model="fact_type"
+                  @input="noFact = ''"
                   native-value="2">
                   Cotización
               </b-radio>
@@ -152,57 +155,85 @@
               </b-autocomplete>
           </b-field>
         </div>
-        <div class="column">
-          <b-field grouped>
-            <b-field label="Disponible">
-              <b-input disabled v-model="product.profit"></b-input>
-            </b-field>
-            <b-field label="Precio">
-              <b-input v-model="product.price"></b-input>
-            </b-field>
-            <b-field label="Cantidad">
-              <b-input v-model="product.quantity"></b-input>
-            </b-field>
-            <div class="field-bottom">
-              <b-button 
-              @click="handleAdd()"
-              icon-left="plus"
-              type="is-success"
-              :disabled="product.id ? false : true"
-              />
-            </div>
-          </b-field>
-        </div>
       </div>
       <div class="columns">
-        <div class="column">
+        <div class="column is-four-fifths">
+          <form @submit.prevent="handleAdd" class="my-2">
+            <b-field grouped>
+              <b-field label="Disponible">
+                <b-input disabled v-model="product.profit" required></b-input>
+              </b-field>
+              <b-field label="Precio">
+                <b-input v-model="product.price" required></b-input>
+              </b-field>
+              <b-field label="Cantidad">
+              <b-input placeholder="Number"
+                  v-model="product.quantity"
+                  type="number"
+                  min="1"
+                  :max="product.profit -1"
+                  required>
+              </b-input>
+              </b-field>
+              <div class="field-bottom">
+                <b-button 
+                icon-left="plus"
+                type="is-success"
+                native-type="submit"
+                :disabled="product.id && product.quantity ? false : true"
+                />
+              </div>
+            </b-field>
+          </form>
           <b-table
             :data="sale_products"
             bordered
             striped
             hoverable
-            :loading="isLoading"
             mobile-cards>
             <b-table-column field="id" label="N°" width="40" numeric v-slot="props">
               {{ props.row.id }}
             </b-table-column>
-            <b-table-column field="id" label="Precio" width="40" numeric v-slot="props">
+            <b-table-column field="description" label="Descripción" width="40" numeric v-slot="props">
+              {{ props.row.description }}
+            </b-table-column>
+            <b-table-column field="sale_price" label="Precio" width="40" numeric v-slot="props">
               {{ props.row.sale_price }}
             </b-table-column>
-            <b-table-column field="id" label="Cantidad" width="40" numeric v-slot="props">
+            <b-table-column field="quantity" label="Cantidad" width="40" numeric v-slot="props">
               {{ props.row.quantity }}
             </b-table-column>
-            <b-table-column field="id" label="ID" width="40" numeric v-slot="props">
-              {{ props.row.total }}
+            <b-table-column label="Sob Total" width="40" numeric v-slot="props">
+              {{ props.row.sale_price * props.row.quantity }}
             </b-table-column>
           </b-table>
+        </div>
+        <div class="column">
+          <b-field label="Metodo de pago">
+              <b-select placeholder="Selecciona metodo">
+              </b-select>
+          </b-field>
+          <b-field label="No.Factura">
+              <b-input 
+              :disabled="fact_type == 2 ? true : false"
+              v-model="noFact"></b-input>
+          </b-field>
+          <b-field label="Sub Total">
+              <b-input disabled v-model="sub_total"></b-input>
+          </b-field>
+          <b-field label="IVA (13%)">
+              <b-input disabled v-model="iva"></b-input>
+          </b-field>
+          <b-field label="Total">
+              <b-input disabled v-model="total"></b-input>
+          </b-field>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 const today = new Date()
 export default {
   data: () =>({
@@ -216,10 +247,17 @@ export default {
     fact_type: 0,
     // Proceso 3
     sale_products: [],
+    isLoading: false,
+    // Proceso 4
+    iva: 0,
+    total: 0,
+    sub_total: 0,
+    noFact: '',
   }),
   computed: {
     ...mapState('customers',['customers']),
     ...mapState('products',['products']),
+    ...mapGetters('offices',['fact_invoice','fact_credential']),
 
     minDate(){
       return new Date(today.getFullYear() - 30, today.getMonth(), today.getDate())
@@ -234,18 +272,17 @@ export default {
     },
     searchProducts() {
       return this.products.filter(product => {
-        return product.description.toLowerCase().includes(this.search.toLowerCase())
+        return product.description.toLowerCase().includes(this.search_product.toLowerCase())
       })
     },
-    handleAdd(){
-      this.sale_products.push(this.product);
-      this.product = {}
-      this.searchProducts =  ''
-    }
   },
   async created(){
+    this.isLoading = true
     await this.fetchCustomers()
     await this.fetchProducts()
+    await this.fetchOffices()
+    this.noFact = this.fact_invoice
+    this.isLoading = false
   },
   methods: {
     ...mapActions('customers',{
@@ -255,6 +292,9 @@ export default {
     }),
     ...mapActions('products',{
       fetchProducts: 'fetch',
+    }),
+    ...mapActions('offices',{
+      fetchOffices: 'fetch',
     }),
     async handleCreate() {
       try {
@@ -287,15 +327,44 @@ export default {
       }
     },
     async handleContinue(){
+      this.isLoading = true
       this.process = true
       await this.fetchProducts()
+      this.isLoading = false
     },
     handleBack(){
       this.process= false
       this.search = ''
       this.customer = {}
-    }
-    
+    },
+    handleAdd(){
+      let val = false
+      this.sale_products.forEach(ele => {
+        if (ele.id === this.product.id) {
+          val = true;
+        }
+      })
+      if (!val){
+        this.sale_products.push({
+          id: this.product.id,
+          sale_price: this.product.price,
+          ...this.product
+        });
+        this.sub_total += this.product.price * this.product.quantity
+        this.iva = this.sub_total * 0.13
+        this.total = this.sub_total + this.iva
+      } else {
+        this.$buefy.toast.open({
+            message: 'Producto ya existente!',
+            type: 'is-warning'
+        })
+      }
+      this.product = {}
+      this.search_product = ''
+    },
+    handleFinally(){
+
+    }    
   }
 }
 </script>
