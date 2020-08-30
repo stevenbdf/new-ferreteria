@@ -13,6 +13,13 @@ export default {
 </script>
 
 <style lang="scss">
+// TailwindCSS
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+// Bulma
 @import url("https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css");
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
