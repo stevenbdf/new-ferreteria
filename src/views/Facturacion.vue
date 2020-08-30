@@ -277,6 +277,7 @@
             <b-button 
               type="is-success" 
               expanded
+              :disabled="!process"
               @click="handleFinally()">
               Facturar
             </b-button>
@@ -434,6 +435,18 @@ export default {
       this.total = 0;
       this.sub_total = 0;
     },
+    clearAll(){
+      this.search = '',
+      this.search_product = ''
+      this.customer = {}
+      this.sale_products = []
+      this.iva = 0;
+      this.total = 0;
+      this.sub_total = 0;
+      this.process= false
+      this.fact_type = 0;
+      this.noFact = ''
+    },
     handleBack(){
       this.process= false
       this.noFact = ''
@@ -539,13 +552,7 @@ export default {
               type: 'is-success'
           })
           await this.fetchProducts()
-          await this.fetchOffices()
-          if(this.fact_type === 1){
-            this.noFact = this.fact_invoice
-          }
-          else if(this.fact_type === 2){
-            this.noFact = this.fact_credential
-          }
+          this.clearAll()
           await this.fetchCustomers()
           // this.handleBack()
         } catch (error) {

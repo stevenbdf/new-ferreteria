@@ -34,10 +34,17 @@ export default {
   methods: {
     ...mapActions("auth",["login"]),
     async handleLogin(){
-      let status = await this.login(this.data)
-      this.$router.push({
-        name: "facturacion"
-      })
+      try{
+        let status = await this.login(this.data)
+        this.$router.push({
+          name: "facturacion"
+        })
+      } catch(e){
+          this.$buefy.toast.open({
+              message: 'Usuario y/o contraseña incorrecta',
+              type: 'is-danger'
+          })
+      }
     }
   }
 }
