@@ -120,17 +120,17 @@
           <b-field grouped>
             <b-field>
               <b-radio v-model="fact_type"
-                  @input="noFact = fact_invoice"
+                  @input="noFact = fact_invoice,handleChange()"
                   native-value="0">
                   Resivo
               </b-radio>
               <b-radio v-model="fact_type"
-                  @input="noFact = fact_credential"
+                  @input="noFact = fact_credential,handleChange()"
                   native-value="1">
                   Credito Fiscal
               </b-radio>
               <b-radio v-model="fact_type"
-                  @input="noFact = ''"
+                  @input="noFact = '',handleChange()"
                   native-value="2">
                   Cotización
               </b-radio>
@@ -198,7 +198,10 @@
               {{ props.row.description }}
             </b-table-column>
             <b-table-column field="sale_price" label="Precio" width="40" numeric v-slot="props">
-              {{ props.row.sale_price }}
+              {{ fact_type == 1 ? (props.row.sale_price * 0.87).toFixed(2)  : props.row.sale_price }}
+            </b-table-column>
+            <b-table-column v-show="fact_type == 1" field="sale_price" label="IVA" width="40" numeric v-slot="props">
+              {{ fact_type == 1 ? (props.row.sale_price * 0.13).toFixed(2)  : 0 }}
             </b-table-column>
             <b-table-column field="quantity" label="Cantidad" width="40" numeric v-slot="props">
               {{ props.row.quantity }}
@@ -219,15 +222,22 @@
               v-model="noFact"></b-input>
           </b-field>
           <b-field label="Sub Total">
-              <b-input disabled v-model="sub_total"></b-input>
+              <b-input disabled :value="sub_total.toFixed(2)"></b-input>
           </b-field>
           <b-field label="IVA (13%)">
-              <b-input disabled v-model="iva"></b-input>
+              <b-input disabled :value="iva.toFixed(2)"></b-input>
           </b-field>
           <b-field label="Total">
-              <b-input disabled v-model="total"></b-input>
+              <b-input disabled :value="total.toFixed(2)"></b-input>
           </b-field>
         </div>
+      </div>
+      <div>
+        <b-button 
+          type="is-success"
+          @click="handleFinally()">
+          Facturar
+        </b-button>
       </div>
     </div>
   </div>
@@ -240,7 +250,7 @@ export default {
     // Proceso 1
     customer: {},
     search: '',
-    process: true,
+    process: false,
     // Proceso 2
     product: {},
     search_product: '',
@@ -255,9 +265,10 @@ export default {
     noFact: '',
   }),
   computed: {
+    ...mapGetters('auth',['profile']),
     ...mapState('customers',['customers']),
     ...mapState('products',['products']),
-    ...mapGetters('offices',['fact_invoice','fact_credential']),
+    ...mapGetters('offices',['office_id','fact_invoice','fact_credential']),
 
     minDate(){
       return new Date(today.getFullYear() - 30, today.getMonth(), today.getDate())
@@ -279,9 +290,6 @@ export default {
   async created(){
     this.isLoading = true
     await this.fetchCustomers()
-    await this.fetchProducts()
-    await this.fetchOffices()
-    this.noFact = this.fact_invoice
     this.isLoading = false
   },
   methods: {
@@ -295,6 +303,15 @@ export default {
     }),
     ...mapActions('offices',{
       fetchOffices: 'fetch',
+    }),
+    ...mapActions('invoices',{
+      storeInvoice: 'store',
+    }),
+    ...mapActions('fiscalCredits',{
+      storeFiscalCredit: 'store',
+    }),
+    ...mapActions('quotes',{
+      storeQuote: 'store',
     }),
     async handleCreate() {
       try {
@@ -330,12 +347,21 @@ export default {
       this.isLoading = true
       this.process = true
       await this.fetchProducts()
+      await this.fetchOffices()
+      this.noFact = this.fact_invoice
       this.isLoading = false
     },
     handleBack(){
       this.process= false
       this.search = ''
+      this.product = {}
+      this.sale_products = []
       this.customer = {}
+      this.iva = 0;
+      this.total = 0;
+      this.sub_total = 0;
+      this.search_product = ''
+      this.fact_type = 0
     },
     handleAdd(){
       let val = false
@@ -346,13 +372,19 @@ export default {
       })
       if (!val){
         this.sale_products.push({
-          id: this.product.id,
+          product_id: this.product.id,
           sale_price: this.product.price,
           ...this.product
         });
-        this.sub_total += this.product.price * this.product.quantity
-        this.iva = this.sub_total * 0.13
-        this.total = this.sub_total + this.iva
+        if(this.fact_type == 1){
+          this.sub_total += this.product.price * this.product.quantity
+          this.iva += (this.product.price*0.13) * this.product.quantity
+          this.total += (this.product.price*0.87) * this.product.quantity
+        } else {
+          this.sub_total += this.product.price * this.product.quantity;
+          this.iva = 0;
+          this.total = this.sub_total;
+        }
       } else {
         this.$buefy.toast.open({
             message: 'Producto ya existente!',
@@ -362,8 +394,74 @@ export default {
       this.product = {}
       this.search_product = ''
     },
-    handleFinally(){
+    handleChange(){
+      this.sub_total= 0;
+      this.iva = 0
+      this.total = 0
+        this.sale_products.forEach(ele => {
+          if(this.fact_type == 1){
+              this.sub_total += ele.price * ele.quantity
+              this.iva += (ele.price*0.13) * ele.quantity
+              this.total += (ele.price*0.87) * ele.quantity
+          } else {
+              this.sub_total += ele.price * ele.quantity
+              this.iva = 0
+              this.total = this.sub_total
+          }
+        })
 
+    },
+    async handleFinally(){
+      if (this.sale_products.length > 0){
+        try {
+          switch(Number(this.fact_type)){
+            case 0:
+              await this.storeInvoice({
+                id: this.noFact,
+                office_id: this.office_id,
+                customer_id: this.customer.id,
+                user_id: this.profile.id,
+                details: this.sale_products
+              })
+              break;
+            case 1:
+              await this.storeFiscalCredit({
+                id: this.noFact,
+                office_id: this.office_id,
+                customer_id: this.customer.id,
+                user_id: this.profile.id,
+                details: this.sale_products
+              })
+              break;
+            case 2:
+              await this.storeQuote({
+                office_id: this.office_id,
+                customer_id: this.customer.id,
+                user_id: this.profile.id,
+                details: this.sale_products
+              })
+              break;
+          }
+          this.$buefy.toast.open({
+              message: 'Gracias por su compra',
+              type: 'is-success'
+          })
+          await this.fetchProducts()
+          await this.fetchOffices()
+          await this.fetchCustomers()
+          this.handleBack()
+        } catch (error) {
+          this.$buefy.toast.open({
+              message: 'Algo salio mal, intentelo nuevamente',
+              type: 'is-danger'
+          })
+        }
+      } else {
+        this.$buefy.toast.open({
+            message: 'No hay productos',
+            type: 'is-warning'
+        })
+      }
     }    
   }
 }

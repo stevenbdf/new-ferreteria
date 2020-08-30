@@ -6,6 +6,9 @@ import authModule from "./modules/auth";
 import customersModule from "./modules/customers"
 import productsModule from "./modules/products"
 import officesModule from "./modules/offices"
+import fiscalCreditsModule from "./modules/fiscalCredits"
+import invoicesModule from "./modules/invoice"
+import quotesModule from "./modules/quotes"
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -17,6 +20,9 @@ const createStore = new Vuex.Store({
     customers: customersModule,
     products: productsModule,
     offices: officesModule,
+    fiscalCredits: fiscalCreditsModule,
+    invoices: invoicesModule,
+    quotes: quotesModule,
   },
   strict: debug,
 });

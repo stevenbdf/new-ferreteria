@@ -1,4 +1,4 @@
 import token from '@/services/TokenService'
 export default {
-  profile: state => JSON.parse(token.getData())
+  profile: () => JSON.parse(token.getData())
 }
