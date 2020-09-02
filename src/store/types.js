@@ -46,3 +46,12 @@ export const FETCH_QUOTE_ERR = 'Fetch Quotes index error'
 export const STORE_QUOTES = 'Store Quotes successfully'
 export const UPDATE_QUOTES = 'Update Quotes successfully'
 export const DESTROY_QUOTES = 'Destroy Quotes successfully'
+
+// Suppliers
+export const FETCH_SUPPLIERS = 'Fetch Suppliers successfully'
+export const FETCH_SUPPLIERS_ERR = 'Fetch Suppliers error'
+export const FETCH_SUPPLIER = 'Fetch Suppliers index successfully'
+export const FETCH_SUPPLIER_ERR = 'Fetch Suppliers index error'
+export const STORE_SUPPLIERS = 'Store Suppliers successfully'
+export const UPDATE_SUPPLIERS = 'Update Suppliers successfully'
+export const DESTROY_SUPPLIERS = 'Destroy Suppliers successfully'

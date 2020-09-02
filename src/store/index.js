@@ -9,6 +9,7 @@ import officesModule from "./modules/offices"
 import fiscalCreditsModule from "./modules/fiscalCredits"
 import invoicesModule from "./modules/invoice"
 import quotesModule from "./modules/quotes"
+import suppliersModule from './modules/suppliers'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -23,6 +24,7 @@ const createStore = new Vuex.Store({
     fiscalCredits: fiscalCreditsModule,
     invoices: invoicesModule,
     quotes: quotesModule,
+    suppliers: suppliersModule
   },
   strict: debug,
 });

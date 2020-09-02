@@ -185,11 +185,11 @@
               <div class="w-full px-2 md:w-3/12">
                 <b-field label="Cantidad">
                   <b-input
-                      :disabled="!process || !product.profit "
+                      :disabled="!process || !product.stock "
                       v-model="product.quantity"
                       type="number"
                       min="1"
-                      :max="product.profit -1"
+                      :max="product.stock -1"
                       required>
                   </b-input>
                 </b-field>
@@ -316,10 +316,10 @@ export default {
     ...mapGetters('offices',['office_id','fact_invoice','fact_credential']),
 
     minDate(){
-      return new Date(today.getFullYear() - 30, today.getMonth(), today.getDate())
+      return new Date(today.getFullYear() - 100, today.getMonth(), today.getDate())
     },
     maxDate() {
-      return new Date(today.getFullYear() - 19, today.getMonth(), today.getDate())
+      return new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
     },
     searchCustomers() {
       return this.customers.filter(customer => {
@@ -373,7 +373,7 @@ export default {
     },
     async handleCreate() {
       let datos
-      if (this.customer.birthdate !== undefined) {
+      if (this.customer.birthdate) {
         const birthdate = this.customer.birthdate 
         const day = new Date(birthdate).getDate() > 9 ? new Date(birthdate).getDate().toString() : `0${new Date(birthdate).getDate().toString()}`
         const month = new Date(birthdate).getMonth()+ 1 > 9 ? new Date(birthdate).getMonth() + 1 : `0${new Date(birthdate).getMonth() + 1}`

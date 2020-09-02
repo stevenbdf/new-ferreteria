@@ -5,7 +5,9 @@ import store from './store'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import './bootstrap'
+import VueMask from 'v-mask'
 Vue.use(Buefy)
+Vue.use(VueMask)
 
 Vue.config.productionTip = false
 
