@@ -1,8 +1,20 @@
 <template>
-    <b-navbar type="is-info">
+    <b-navbar type="is-info" class="py-2" style="background-color: #0A3D62;">
         <template slot="start">
-            <b-navbar-item href="#">
+            <b-navbar-item class="mr-10">
                 SISTEMA DE INVENTARIO
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/facturacion' }">
+            Facturación
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/proveedores' }">
+            Proveedores
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/departamentos' }">
+            Departamentos
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/clientes' }">
+            Clientes
             </b-navbar-item>
         </template>
 

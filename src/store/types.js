@@ -55,3 +55,12 @@ export const FETCH_SUPPLIER_ERR = 'Fetch Suppliers index error'
 export const STORE_SUPPLIERS = 'Store Suppliers successfully'
 export const UPDATE_SUPPLIERS = 'Update Suppliers successfully'
 export const DESTROY_SUPPLIERS = 'Destroy Suppliers successfully'
+
+// Departments
+export const FETCH_DEPARTMENTS = 'Fetch Departments successfully'
+export const FETCH_DEPARTMENTS_ERR = 'Fetch Departments error'
+export const FETCH_DEPARTMENT = 'Fetch Departments index successfully'
+export const FETCH_DEPARTMENT_ERR = 'Fetch Departments index error'
+export const STORE_DEPARTMENTS = 'Store Departments successfully'
+export const UPDATE_DEPARTMENTS = 'Update Departments successfully'
+export const DESTROY_DEPARTMENTS = 'Destroy Departments successfully'

@@ -133,7 +133,7 @@
                   :disabled="!process"
                   @input="handleChange()"
                   native-value="0">
-                  Resivo
+                  Factura
               </b-radio>
               <b-radio v-model="fact_type"
                   :disabled="!process"
