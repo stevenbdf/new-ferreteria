@@ -38,6 +38,14 @@ const routes = [
       layout: 'app'
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Departamentos.vue')
+  },
+  {
+    path: '/transacciones',
+    name: 'transacciones',
+    meta: {
+      layout: 'app'
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Transacciones.vue')
   }
 ]
 export default routes;

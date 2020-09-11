@@ -11,6 +11,7 @@ import invoicesModule from "./modules/invoice"
 import quotesModule from "./modules/quotes"
 import suppliersModule from './modules/suppliers'
 import departmentsModule from './modules/departments'
+import transactionsModule from './modules/transactions'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -26,7 +27,8 @@ const createStore = new Vuex.Store({
     invoices: invoicesModule,
     quotes: quotesModule,
     suppliers: suppliersModule,
-    departments: departmentsModule
+    departments: departmentsModule,
+    transactions: transactionsModule
   },
   strict: debug,
 });

@@ -8,7 +8,7 @@
           <b-field label="Buscar cliente">
               <b-autocomplete
                   v-model="search"
-                  placeholder="ejem. Steven"
+                  placeholder="ejem. José, Luis"
                   :disabled="process"
                   open-on-focus
                   expanded
@@ -156,7 +156,7 @@
           <b-field label="Buscar producto">
               <b-autocomplete
                   v-model="search_product"
-                  placeholder="ejem. Martillo"
+                  placeholder="ejem. Martillo, FONT0005"
                   open-on-focus
                   :icon-right="search_product.trim() !== '' ? 'close' : 'magnify'"
                   :data="searchProducts"
@@ -189,7 +189,7 @@
                       v-model="product.quantity"
                       type="number"
                       min="1"
-                      :max="product.stock -1"
+                      :max="product.stock"
                       required>
                   </b-input>
                 </b-field>
@@ -328,7 +328,7 @@ export default {
     },
     searchProducts() {
       return this.products.filter(product => {
-        return product.description.toLowerCase().includes(this.search_product.toLowerCase())
+        return product.description.toLowerCase().includes(this.search_product.toLowerCase()) || product.id.toLowerCase().includes(this.search_product.toLowerCase())
       })
     },
   },

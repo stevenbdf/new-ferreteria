@@ -7,6 +7,9 @@
             <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/facturacion' }">
             Facturación
             </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/transacciones' }">
+            Transacciones
+            </b-navbar-item>
             <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/proveedores' }">
             Proveedores
             </b-navbar-item>

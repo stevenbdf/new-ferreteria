@@ -64,3 +64,12 @@ export const FETCH_DEPARTMENT_ERR = 'Fetch Departments index error'
 export const STORE_DEPARTMENTS = 'Store Departments successfully'
 export const UPDATE_DEPARTMENTS = 'Update Departments successfully'
 export const DESTROY_DEPARTMENTS = 'Destroy Departments successfully'
+
+// Transactions
+export const FETCH_TRANSACTIONS = 'Fetch Transactions successfully'
+export const FETCH_TRANSACTIONS_ERR = 'Fetch Transactions error'
+export const FETCH_TRANSACTION = 'Fetch Transactions index successfully'
+export const FETCH_TRANSACTION_ERR = 'Fetch Transactions index error'
+export const STORE_TRANSACTIONS = 'Store Transactions successfully'
+export const UPDATE_TRANSACTIONS = 'Update Transactions successfully'
+export const DESTROY_TRANSACTIONS = 'Destroy Transactions successfully'
