@@ -1,6 +1,6 @@
 <template>
   <div class="mb-2 md:mx-16">
-    <h2 class="title is-2">Transacciónes</h2>
+    <h2 class="title is-2">Inventario</h2>
     <form @submit.prevent="transaction.id ? handleUpdate() : handleCreate()">
       <div class="flex flex-wrap my-2 w-full">
         <!-- Formulario -->

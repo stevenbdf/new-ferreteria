@@ -46,6 +46,14 @@ const routes = [
       layout: 'app'
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Transacciones.vue')
+  },
+  {
+    path: '/productos',
+    name: 'productos',
+    meta: {
+      layout: 'app'
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Productos.vue')
   }
 ]
 export default routes;

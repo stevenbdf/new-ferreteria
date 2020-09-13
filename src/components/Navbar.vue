@@ -8,7 +8,10 @@
             Facturación
             </b-navbar-item>
             <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/transacciones' }">
-            Transacciones
+            Inventario
+            </b-navbar-item>
+            <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/productos' }">
+            Productos
             </b-navbar-item>
             <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/proveedores' }">
             Proveedores
