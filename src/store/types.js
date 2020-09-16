@@ -73,3 +73,12 @@ export const FETCH_TRANSACTION_ERR = 'Fetch Transactions index error'
 export const STORE_TRANSACTIONS = 'Store Transactions successfully'
 export const UPDATE_TRANSACTIONS = 'Update Transactions successfully'
 export const DESTROY_TRANSACTIONS = 'Destroy Transactions successfully'
+
+// Users
+export const FETCH_USERS = 'Fetch Users successfully'
+export const FETCH_USERS_ERR = 'Fetch Users error'
+export const FETCH_USER = 'Fetch Users index successfully'
+export const FETCH_USER_ERR = 'Fetch Users index error'
+export const STORE_USERS = 'Store Users successfully'
+export const UPDATE_USERS = 'Update Users successfully'
+export const DESTROY_USERS = 'Destroy Users successfully'

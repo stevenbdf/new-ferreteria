@@ -54,6 +54,14 @@ const routes = [
       layout: 'app'
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Productos.vue')
+  },
+  {
+    path: '/usuarios',
+    name: 'usuarios',
+    meta: {
+      layout: 'app'
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Usuarios.vue')
   }
 ]
 export default routes;

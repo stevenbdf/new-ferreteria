@@ -9,7 +9,6 @@
             <b-autocomplete
               v-model="search_product"
               placeholder="ejem. Martillo, FONT0005"
-              open-on-focus
               :icon-right="search_product.trim() !== '' ? 'close' : 'magnify'"
               :data="searchProducts"
               field="description"
@@ -17,7 +16,9 @@
               @icon-right-click="search_product = ''"
               @select="option => (product = option !== null ? { ...option} : {})"
               required
-            ></b-autocomplete>
+            >
+              <template slot-scope="props">{{`${props.option.id} | ${props.option.description}`}}</template>
+            </b-autocomplete>
           </b-field>
         </div>
         <div class="w-full pl-4 md:mb-2 md:w-3/12">
