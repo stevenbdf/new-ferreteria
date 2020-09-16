@@ -23,6 +23,9 @@
       <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/usuarios' }">
         <b-icon icon="account" size="is-small" class="mr-2"></b-icon>Usuarios
       </b-navbar-item>
+      <b-navbar-item tag="router-link" class="mr-10" :to="{ path: '/sucursales' }">
+        <b-icon icon="home" size="is-small" class="mr-2"></b-icon>Sucursales
+      </b-navbar-item>
     </template>
 
     <template slot="end">
