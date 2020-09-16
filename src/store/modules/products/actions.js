@@ -36,8 +36,9 @@ export default {
 
   async update({ commit }, credentials) {
     try {
-      await axios.update(`${api}/${credentials.id}`, credentials)
-      commit(types.UPDATE_PRODUCTS, credentials)
+      let id = credentials.get("id");
+      let { data } = await axios.store(`${api}/${id}`, credentials)
+      commit(types.UPDATE_PRODUCTS, data)
     } catch (e) {
       throw e
     }

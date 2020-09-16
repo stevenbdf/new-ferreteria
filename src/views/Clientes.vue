@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 md:mx-16">
+  <div class="mb-2 mt-20 md:mx-16">
     <h2 class="title is-2">Clientes</h2>
     <form @submit.prevent="customer.id ? handleUpdate() : handleCreate()">
       <div class="flex flex-wrap my-2">
