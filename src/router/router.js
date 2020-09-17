@@ -3,7 +3,8 @@ const routes = [
     path: '/',
     name: 'Login',
     meta: {
-      layout: 'landing'
+      layout: 'landing',
+      guest: true
     },
     component: () => import("@/views/auth/Login")
   },
@@ -11,7 +12,8 @@ const routes = [
     path: '/facturacion',
     name: 'facturacion',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Facturacion.vue')
   },
@@ -19,7 +21,8 @@ const routes = [
     path: '/clientes',
     name: 'clientes',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Clientes.vue')
   },
@@ -27,7 +30,9 @@ const routes = [
     path: '/proveedores',
     name: 'proveedores',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Proveedores.vue')
   },
@@ -35,7 +40,9 @@ const routes = [
     path: '/departamentos',
     name: 'departamentos',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Departamentos.vue')
   },
@@ -43,7 +50,9 @@ const routes = [
     path: '/transacciones',
     name: 'transacciones',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Transacciones.vue')
   },
@@ -51,7 +60,9 @@ const routes = [
     path: '/productos',
     name: 'productos',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Productos.vue')
   },
@@ -59,7 +70,9 @@ const routes = [
     path: '/usuarios',
     name: 'usuarios',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Usuarios.vue')
   },
@@ -67,7 +80,9 @@ const routes = [
     path: '/sucursales',
     name: 'sucursales',
     meta: {
-      layout: 'app'
+      layout: 'app',
+      requiresAuth: true,
+      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Sucursales.vue')
   }
