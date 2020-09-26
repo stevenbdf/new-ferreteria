@@ -1,7 +1,10 @@
 <template>
   <div class="mb-2 mt-20 md:mx-16">
     <h2 class="title is-2">Facturación</h2>
-    <form @submit.prevent="customer.id ? handleUpdate() : handleCreate()" :disabled="process">
+    <form
+      @submit.prevent="customer.id ? handleUpdate() : handleCreate()"
+      :disabled="process"
+    >
       <div class="flex flex-wrap my-2">
         <!-- Buscador -->
         <div class="w-full px-2 md:w-3/12">
@@ -36,7 +39,7 @@
           <b-field label="Nacimiento">
             <b-datepicker
               v-model="customer.birthdate"
-              :date-parser="d => format(d, 'YYYY-MM-DD')"
+              :date-parser="(d) => format(d, 'YYYY-MM-DD')"
               placeholder="Fecha de nacimiento"
               icon="calendar-today"
               :disabled="process"
@@ -48,22 +51,39 @@
         </div>
         <div class="w-full px-2 md:w-2/12">
           <b-field label="DUI">
-            <b-input placeholder="DUI" :disabled="process" v-model="customer.dui"></b-input>
+            <b-input
+              placeholder="DUI"
+              :disabled="process"
+              v-model="customer.dui"
+            ></b-input>
           </b-field>
         </div>
         <div class="w-full px-2 md:w-2/12">
           <b-field label="NIT">
-            <b-input placeholder="NIT" :disabled="process" v-model="customer.nit"></b-input>
+            <b-input
+              placeholder="NIT"
+              :disabled="process"
+              v-model="customer.nit"
+            ></b-input>
           </b-field>
         </div>
         <div class="w-full px-2 md:w-3/12">
           <b-field label="Correo">
-            <b-input type="email" :disabled="process" placeholder="Correo" v-model="customer.email"></b-input>
+            <b-input
+              type="email"
+              :disabled="process"
+              placeholder="Correo"
+              v-model="customer.email"
+            ></b-input>
           </b-field>
         </div>
         <div class="w-full px-2 md:w-4/12">
           <b-field label="Dirección">
-            <b-input placeholder="Dirección" :disabled="process" v-model="customer.address"></b-input>
+            <b-input
+              placeholder="Dirección"
+              :disabled="process"
+              v-model="customer.address"
+            ></b-input>
           </b-field>
         </div>
         <div class="w-full px-2 md:w-2/12">
@@ -77,7 +97,11 @@
         </div>
         <div class="w-full px-2 md:w-3/12">
           <b-field label="Rubro">
-            <b-input placeholder="Rubro" :disabled="process" v-model="customer.business_item"></b-input>
+            <b-input
+              placeholder="Rubro"
+              :disabled="process"
+              v-model="customer.business_item"
+            ></b-input>
           </b-field>
         </div>
       </div>
@@ -88,15 +112,23 @@
               <b-button
                 type="is-info"
                 @click="handleContinue()"
-                :disabled="customer.full_name === undefined ? true : customer.full_name.trim() === '' ? true : false || process"
-              >Continuar</b-button>
+                :disabled="
+                  customer.full_name === undefined
+                    ? true
+                    : customer.full_name.trim() === ''
+                    ? true
+                    : false || process
+                "
+                >Continuar</b-button
+              >
             </b-field>
             <b-field>
               <b-button
                 :type="customer.id ? 'is-warning' : 'is-success'"
                 :disabled="process"
                 native-type="submit"
-              >{{ customer.id ? 'Actualizar' : 'Crear' }}</b-button>
+                >{{ customer.id ? "Actualizar" : "Crear" }}</b-button
+              >
             </b-field>
           </b-field>
         </div>
@@ -115,19 +147,22 @@
                 :disabled="!process"
                 @input="handleChange()"
                 native-value="0"
-              >Factura</b-radio>
+                >Factura</b-radio
+              >
               <b-radio
                 v-model="fact_type"
                 :disabled="!process"
                 @input="handleChange()"
                 native-value="1"
-              >Credito Fiscal</b-radio>
+                >Credito Fiscal</b-radio
+              >
               <b-radio
                 v-model="fact_type"
                 :disabled="!process"
                 @input="handleChange()"
                 native-value="2"
-              >Cotización</b-radio>
+                >Cotización</b-radio
+              >
             </b-field>
           </b-field>
         </div>
@@ -141,11 +176,17 @@
               :icon-right="search_product.trim() !== '' ? 'close' : 'magnify'"
               :data="searchProducts"
               field="description"
-              :icon-right-clickable="search_product.trim() !== '' ? true : false"
+              :icon-right-clickable="
+                search_product.trim() !== '' ? true : false
+              "
               @icon-right-click="search_product = ''"
-              @select="option => (product = option !== null ? { ...option} : {})"
+              @select="
+                (option) => (product = option !== null ? { ...option } : {})
+              "
             >
-              <template slot-scope="props">{{`${props.option.id} | ${props.option.description}`}}</template>
+              <template slot-scope="props">{{
+                `${props.option.id} | ${props.option.description}`
+              }}</template>
             </b-autocomplete>
           </b-field>
         </div>
@@ -160,13 +201,17 @@
             </div>
             <div class="w-full px-2 md:w-3/12">
               <b-field label="Precio">
-                <b-input :disabled="!process" v-model="product.price" required></b-input>
+                <b-input
+                  :disabled="!process"
+                  v-model="product.price"
+                  required
+                ></b-input>
               </b-field>
             </div>
             <div class="w-full px-2 md:w-3/12">
               <b-field label="Cantidad">
                 <b-input
-                  :disabled="!process || !product.stock "
+                  :disabled="!process || !product.stock"
                   v-model="product.quantity"
                   type="number"
                   min="1"
@@ -194,31 +239,45 @@
                 expanded
                 type="is-info"
                 @click="clear()"
-              >Limpiar</b-button>
+                >Limpiar</b-button
+              >
             </div>
             <div class="w-full">
-              <b-table :data="sale_products" bordered striped hoverable mobile-cards>
+              <b-table
+                :data="sale_products"
+                bordered
+                striped
+                hoverable
+                mobile-cards
+              >
                 <b-table-column
                   field="id"
                   label="N°"
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ props.row.id }}</b-table-column>
+                  >{{ props.row.id }}</b-table-column
+                >
                 <b-table-column
                   field="description"
                   label="Descripción"
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ props.row.description }}</b-table-column>
+                  >{{ props.row.description }}</b-table-column
+                >
                 <b-table-column
                   field="sale_price"
                   label="Precio"
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ fact_type == 1 ? (props.row.sale_price * 0.87).toFixed(2) : props.row.sale_price }}</b-table-column>
+                  >{{
+                    fact_type == 1
+                      ? (props.row.sale_price * 0.87).toFixed(2)
+                      : props.row.sale_price
+                  }}</b-table-column
+                >
                 <b-table-column
                   v-show="fact_type == 1"
                   field="sale_price"
@@ -226,21 +285,35 @@
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ fact_type == 1 ? (props.row.sale_price * 0.13).toFixed(2) : 0 }}</b-table-column>
+                  >{{
+                    fact_type == 1
+                      ? (props.row.sale_price * 0.13).toFixed(2)
+                      : 0
+                  }}</b-table-column
+                >
                 <b-table-column
                   field="quantity"
                   label="Cantidad"
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ props.row.quantity }}</b-table-column>
+                  >{{ props.row.quantity }}</b-table-column
+                >
                 <b-table-column
-                  label="Sob Total"
+                  label="Sub Total"
                   width="40"
                   numeric
                   v-slot="props"
-                >{{ props.row.sale_price * props.row.quantity }}</b-table-column>
-                <b-table-column label="Accion" width="40" numeric v-slot="props">
+                  >{{
+                    props.row.sale_price * props.row.quantity
+                  }}</b-table-column
+                >
+                <b-table-column
+                  label="Accion"
+                  width="40"
+                  numeric
+                  v-slot="props"
+                >
                   <b-button
                     icon-left="delete"
                     type="is-danger"
@@ -253,10 +326,17 @@
         </div>
         <div class="w-full px-2 md:w-3/12">
           <b-field label="Metodo de pago">
-            <b-select placeholder="Selecciona metodo" expanded :disabled="!process"></b-select>
+            <b-select
+              placeholder="Selecciona metodo"
+              expanded
+              :disabled="!process"
+            ></b-select>
           </b-field>
           <b-field label="No.Factura">
-            <b-input :disabled="fact_type == 2 ? true : false || !process" v-model="noFact"></b-input>
+            <b-input
+              :disabled="fact_type == 2 ? true : false || !process"
+              v-model="noFact"
+            ></b-input>
           </b-field>
           <b-field label="Sub Total">
             <b-input disabled :value="sub_total.toFixed(2)"></b-input>
@@ -273,7 +353,8 @@
               expanded
               :disabled="!process"
               @click="handleFinally()"
-            >Facturar</b-button>
+              >Facturar</b-button
+            >
           </b-field>
         </div>
       </div>
@@ -524,9 +605,9 @@ export default {
       }
       this.sale_products.forEach((ele) => {
         if (this.fact_type == 1) {
-          this.sub_total += ele.price * ele.quantity;
+          this.sub_total += ele.price * 0.87 * ele.quantity;
           this.iva += ele.price * 0.13 * ele.quantity;
-          this.total += ele.price * 0.87 * ele.quantity;
+          this.total += ele.price * ele.quantity;
         } else {
           this.sub_total += ele.price * ele.quantity;
           this.iva = 0;

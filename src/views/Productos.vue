@@ -52,7 +52,7 @@
           </div>
           <div class="w-1/4 pr-4 mt-4">
             <b-field label="% de ganancia">
-              <b-input type="number" step="1" v-model="product.profit" required></b-input>
+              <b-input type="number" step="0.01" v-model="product.profit" required></b-input>
             </b-field>
           </div>
           <div class="w-1/4 pr-4 mt-4">
@@ -314,7 +314,7 @@ export default {
 
         let profitCalculated = price / base_cost;
 
-        profitCalculated = Math.ceil((profitCalculated - 1) * 100);
+        profitCalculated = (profitCalculated - 1) * 100;
 
         formData.append("id", id);
         formData.append("department_id", department_id);

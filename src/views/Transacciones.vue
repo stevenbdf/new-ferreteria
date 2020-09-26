@@ -100,6 +100,7 @@
         <b-table-column
           field="date"
           label="Fecha"
+          width="120"
           :searchable="true"
           sortable
           v-slot="props"
@@ -107,6 +108,7 @@
         <b-table-column
           field="product_id"
           label="Código"
+          width="50"
           :searchable="true"
           sortable
           v-slot="props"
@@ -156,6 +158,7 @@
           >{{ props.row.stock }}</b-tag>
         </b-table-column>
         <b-table-column field="cost" label="Promedio" sortable v-slot="props">${{ props.row.cost }}</b-table-column>
+        <b-table-column label="Valor total" sortable v-slot="props">${{ (props.row.cost * props.row.stock).toFixed(2) }}</b-table-column>
         <b-table-column label="Acciónes" centered v-slot="props">
           <b-button
             :disabled="!props.row.delete"
