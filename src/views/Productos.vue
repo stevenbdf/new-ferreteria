@@ -293,6 +293,7 @@ export default {
           type: "is-success",
         });
       } catch (e) {
+        console.log(e);
         this.$buefy.toast.open({
           message: "Error al crear producto",
           type: "is-danger",
@@ -336,6 +337,7 @@ export default {
           type: "is-success",
         });
       } catch (e) {
+        console.log(e);
         this.$buefy.toast.open({
           message: "Error al actualizar producto",
           type: "is-danger",
