@@ -12,12 +12,18 @@
               :icon-right="search_product.trim() !== '' ? 'close' : 'magnify'"
               :data="searchProducts"
               field="description"
-              :icon-right-clickable="search_product.trim() !== '' ? true : false"
+              :icon-right-clickable="
+                search_product.trim() !== '' ? true : false
+              "
               @icon-right-click="search_product = ''"
-              @select="option => (product = option !== null ? { ...option} : {})"
+              @select="
+                (option) => (product = option !== null ? { ...option } : {})
+              "
               required
             >
-              <template slot-scope="props">{{`${props.option.id} | ${props.option.description}`}}</template>
+              <template slot-scope="props">{{
+                `${props.option.id} | ${props.option.description}`
+              }}</template>
             </b-autocomplete>
           </b-field>
         </div>
@@ -32,7 +38,9 @@
                 v-for="option in offices"
                 :value="option.id"
                 :key="option.id"
-              >{{ option.name }}</option>
+              >
+                {{ option.name }}
+              </option>
             </b-select>
           </b-field>
         </div>
@@ -46,7 +54,8 @@
               passive-type="is-danger"
               true-value="Entrada"
               false-value="Salida"
-            >{{ transaction.type }}</b-switch>
+              >{{ transaction.type }}</b-switch
+            >
           </b-field>
         </div>
         <div class="w-full px-2 md:mb-2 md:w-6/12">
@@ -60,12 +69,24 @@
         </div>
         <div class="w-full pl-4 md:mb-2 md:w-3/12">
           <b-field label="Cantidad">
-            <b-input v-model="transaction.quantity" type="number" step="0.01" min="0.01" required></b-input>
+            <b-input
+              v-model="transaction.quantity"
+              type="number"
+              step="0.01"
+              min="0.01"
+              required
+            ></b-input>
           </b-field>
         </div>
         <div class="w-full px-2 md:mb-2 md:w-3/12 flex justify-center">
           <b-field label="Monto USD">
-            <b-input v-model="transaction.amount" type="number" step="0.01" min="0.00" required></b-input>
+            <b-input
+              v-model="transaction.amount"
+              type="number"
+              step="0.01"
+              min="0.00"
+              required
+            ></b-input>
           </b-field>
         </div>
       </div>
@@ -76,13 +97,25 @@
               class="w-1/12 mr-5"
               :type="transaction.id ? 'is-warning' : 'is-success'"
               native-type="submit"
-            >{{ transaction.id ? 'Actualizar' : 'Crear' }}</b-button>
+              >{{ transaction.id ? "Actualizar" : "Crear" }}</b-button
+            >
 
-            <b-button @click="clearTransaction()" class="w-1/12" type="is-info">Limpiar</b-button>
+            <b-button @click="clearTransaction()" class="w-1/12" type="is-info"
+              >Limpiar</b-button
+            >
           </b-field>
         </div>
       </div>
     </form>
+    <div class="px-2 mt-2">
+      <div class="flex justify-end">
+        <a :href="exportUrl" target="_blank">
+          <b-field>
+            <b-button v-if="transactions.length" type="is-success">Exportar a excel</b-button>
+          </b-field>
+        </a>
+      </div>
+    </div>
     <div class="px-2 mt-5">
       <b-table
         ref="instTable"
@@ -104,7 +137,8 @@
           :searchable="true"
           sortable
           v-slot="props"
-        >{{ props.row.date }}</b-table-column>
+          >{{ props.row.date }}</b-table-column
+        >
         <b-table-column
           field="product_id"
           label="Código"
@@ -112,53 +146,66 @@
           :searchable="true"
           sortable
           v-slot="props"
-        >{{ props.row.product_id }}</b-table-column>
+          >{{ props.row.product_id }}</b-table-column
+        >
         <b-table-column
           field="product.description"
           label="Producto"
           :searchable="true"
           sortable
           v-slot="props"
-        >{{ props.row.product.description }}</b-table-column>
+          >{{ props.row.product.description }}</b-table-column
+        >
         <b-table-column
           field="user.full_name"
           label="Usuario"
           :searchable="true"
           sortable
           v-slot="props"
-        >{{ props.row.user.full_name }}</b-table-column>
-        <b-table-column field="type" label="Transacción" sortable v-slot="props">
+          >{{ props.row.user.full_name }}</b-table-column
+        >
+        <b-table-column
+          field="type"
+          label="Transacción"
+          sortable
+          v-slot="props"
+        >
           <b-tag
             class="w-full font-bold uppercase py-3"
             :type="props.row.type ? 'is-success' : 'is-danger'"
-          >{{ props.row.type ? 'Entrada' : 'Salida' }}</b-tag>
+            >{{ props.row.type ? "Entrada" : "Salida" }}</b-tag
+          >
         </b-table-column>
         <b-table-column
           field="description"
           label="Descripción"
           sortable
           v-slot="props"
-        >{{ props.row.description }}</b-table-column>
+          >{{ props.row.description }}</b-table-column
+        >
         <b-table-column
           field="quantity"
           label="Cantidad"
           sortable
           v-slot="props"
-        >{{ props.row.quantity }}</b-table-column>
-        <b-table-column
-          field="amount"
-          label="Monto USD"
-          sortable
-          v-slot="props"
-        >${{ props.row.amount }}</b-table-column>
+          >{{ props.row.quantity }}</b-table-column
+        >
+        <b-table-column field="amount" label="Monto USD" sortable v-slot="props"
+          >${{ props.row.amount }}</b-table-column
+        >
         <b-table-column field="stock" label="Stock" sortable v-slot="props">
           <b-tag
             class="w-full"
             :type="props.row.stock ? 'is-info' : 'is-danger'"
-          >{{ props.row.stock }}</b-tag>
+            >{{ props.row.stock }}</b-tag
+          >
         </b-table-column>
-        <b-table-column field="cost" label="Promedio" sortable v-slot="props">${{ props.row.cost }}</b-table-column>
-        <b-table-column label="Valor total" sortable v-slot="props">${{ (props.row.cost * props.row.stock).toFixed(2) }}</b-table-column>
+        <b-table-column field="cost" label="Promedio" sortable v-slot="props"
+          >${{ props.row.cost }}</b-table-column
+        >
+        <b-table-column label="Valor total" sortable v-slot="props"
+          >${{ (props.row.cost * props.row.stock).toFixed(2) }}</b-table-column
+        >
         <b-table-column label="Acciónes" centered v-slot="props">
           <b-button
             :disabled="!props.row.delete"
@@ -178,6 +225,7 @@ export default {
     //Transaction
     transaction: {},
     isLoading: false,
+    exportUrl: process.env.VUE_APP_BASE_URL + "transactions/export",
 
     //Product
     product: {},
