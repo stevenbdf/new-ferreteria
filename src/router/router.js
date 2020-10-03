@@ -83,6 +83,15 @@ const routes = [
       type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Sucursales.vue')
+  },
+  {
+    path: '/configuraciones',
+    name: 'configuraciones',
+    meta: {
+      layout: 'app',
+      requiresAuth: true,
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Configuraciones.vue')
   }
 ]
 export default routes;

@@ -1,12 +1,13 @@
 import axios from '@/services/HttpService'
 import * as types from '@/store/types'
+import token from '@/services/TokenService'
 
 const api = '/offices'
 
 export default {
   async fetch({ commit }) {
     try {
-      let {data} = await axios.fetch(`${api}`)
+      let { data } = await axios.fetch(`${api}`)
       commit(types.FETCH_OFFICES, data)
     } catch (e) {
       commit(types.FETCH_OFFICES_ERR)
@@ -14,9 +15,9 @@ export default {
     }
   },
 
-  async index({ commit },credentials) {
+  async index({ commit }, credentials) {
     try {
-      let {data} = await axios.fetch(`${api}/${credentials.id}`)
+      let { data } = await axios.fetch(`${api}/${credentials.id}`)
       commit(types.FETCH_OFFICE, data)
     } catch (e) {
       commit(types.FETCH_OFFICE_ERR)
@@ -26,7 +27,7 @@ export default {
 
   async store({ commit }, credentials) {
     try {
-      let {data} = await axios.store(`${api}`,credentials)
+      let { data } = await axios.store(`${api}`, credentials)
       commit(types.STORE_OFFICES, data)
       return data
     } catch (e) {
@@ -36,7 +37,7 @@ export default {
 
   async update({ commit }, credentials) {
     try {
-      await axios.update(`${api}/${credentials.id}`,credentials)
+      await axios.update(`${api}/${credentials.id}`, credentials)
       commit(types.UPDATE_OFFICES, credentials)
     } catch (e) {
       throw e
@@ -50,5 +51,8 @@ export default {
     } catch (e) {
       throw e
     }
+  },
+  setOfficeId({ commit }, data) {
+    token.setOfficeId(JSON.stringify(data))
   }
 }

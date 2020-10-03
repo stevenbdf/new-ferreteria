@@ -4,7 +4,8 @@ import getters from './getters'
 
 const state = {
   offices: [],
-  office: {}
+  office: {},
+  currentOfficeId: 0
 }
 
 export default {

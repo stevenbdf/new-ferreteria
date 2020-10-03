@@ -18,6 +18,7 @@ export default {
     try {
       let {data} = await axios.fetch(`${api}/${credentials.id}`)
       commit(types.FETCH_USER, data)
+      return data
     } catch (e) {
       commit(types.FETCH_USER_ERR)
       throw e

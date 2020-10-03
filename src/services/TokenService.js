@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 const DATA_KEY = "data"
 const TOKEN_KEY = "token"
 const REMEMBER_ME = "remember"
+const OFFICE_ID = "office_id"
 
 export default {
   getToken() {
@@ -14,6 +15,9 @@ export default {
   },
   getRememberMe() {
     return Cookies.get(REMEMBER_ME)
+  },
+  getOfficeId() {
+    return Cookies.get(OFFICE_ID)
   },
   setToken(token) {
     Cookies.set(DATA_KEY, token, { expires: 365 })
@@ -30,4 +34,7 @@ export default {
   removeRememberMe() {
     Cookies.remove(REMEMBER_ME)
   },
+  setOfficeId(id) {
+    Cookies.set(OFFICE_ID, id, { expires: 365 })
+  }
 }

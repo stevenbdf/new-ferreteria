@@ -5,8 +5,10 @@
     class="py-2"
     style="background-color: #0a3d62"
   >
-    <template slot="start">
+    <template slot="brand">
       <b-navbar-item class="mr-10">SISTEMA DE INVENTARIO</b-navbar-item>
+    </template>
+    <template slot="start">
       <b-navbar-item
         tag="router-link"
         class="mr-5"
@@ -83,7 +85,7 @@
         class="mr-2 my-auto"
       ></b-icon>
       <b-navbar-dropdown :label="profile.full_name">
-        <b-navbar-item href="#">
+        <b-navbar-item tag="router-link" :to="{ path: '/configuraciones' }">
           <b-icon icon="cog" size="is-small" class="mr-2"></b-icon
           >Configuraciónes
         </b-navbar-item>
