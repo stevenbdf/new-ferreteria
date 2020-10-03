@@ -7,6 +7,7 @@
         <div class="w-full px-2 md:mb-2 md:w-6/12">
           <b-field label="Buscar producto">
             <b-autocomplete
+              :disabled="profile.type != 1"
               v-model="search_product"
               placeholder="ejem. Martillo, FONT0005"
               :icon-right="search_product.trim() !== '' ? 'close' : 'magnify'"
@@ -30,6 +31,7 @@
         <div class="w-full pl-4 md:mb-2 md:w-3/12">
           <b-field label="Sucursal">
             <b-select
+              :disabled="profile.type != 1"
               v-model="transaction.office_id"
               placeholder="Selecciona una sucursal"
               expanded
@@ -47,6 +49,7 @@
         <div class="w-full px-2 md:mb-2 md:w-3/12 flex justify-center">
           <b-field label="Entrada Salida">
             <b-switch
+              :disabled="profile.type != 1"
               size="is-medium"
               class="pr-12pt-1"
               v-model="transaction.type"
@@ -61,6 +64,7 @@
         <div class="w-full px-2 md:mb-2 md:w-6/12">
           <b-field label="Descripción">
             <b-input
+              :disabled="profile.type != 1"
               placeholder="Ej. Compra a proveedor, Producto dañado"
               v-model="transaction.description"
               required
@@ -70,6 +74,7 @@
         <div class="w-full pl-4 md:mb-2 md:w-3/12">
           <b-field label="Cantidad">
             <b-input
+              :disabled="profile.type != 1"
               v-model="transaction.quantity"
               type="number"
               step="0.01"
@@ -81,6 +86,7 @@
         <div class="w-full px-2 md:mb-2 md:w-3/12 flex justify-center">
           <b-field label="Monto USD">
             <b-input
+              :disabled="profile.type != 1"
               v-model="transaction.amount"
               type="number"
               step="0.01"
@@ -94,13 +100,18 @@
         <div class="p-2 w-full">
           <b-field>
             <b-button
+              :disabled="profile.type != 1"
               class="w-1/12 mr-5"
               :type="transaction.id ? 'is-warning' : 'is-success'"
               native-type="submit"
               >{{ transaction.id ? "Actualizar" : "Crear" }}</b-button
             >
 
-            <b-button @click="clearTransaction()" class="w-1/12" type="is-info"
+            <b-button
+              :disabled="profile.type != 1"
+              @click="clearTransaction()"
+              class="w-1/12"
+              type="is-info"
               >Limpiar</b-button
             >
           </b-field>
@@ -111,7 +122,9 @@
       <div class="flex justify-end">
         <a :href="exportUrl" target="_blank">
           <b-field>
-            <b-button v-if="transactions.length" type="is-success">Exportar a excel</b-button>
+            <b-button v-if="transactions.length" type="is-success"
+              >Exportar a excel</b-button
+            >
           </b-field>
         </a>
       </div>
@@ -208,7 +221,7 @@
         >
         <b-table-column label="Acciónes" centered v-slot="props">
           <b-button
-            :disabled="!props.row.delete"
+            :disabled="!props.row.delete || profile.type != 1"
             @click="handleDelete(props.row)"
             type="is-danger"
             icon-right="delete"

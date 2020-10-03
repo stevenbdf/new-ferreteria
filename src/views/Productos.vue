@@ -7,12 +7,17 @@
         <div class="flex flex-wrap w-full px-2 md:mb-2 md:w-1/2">
           <div class="w-full">
             <b-field label="Descripción">
-              <b-input v-model="product.description" required></b-input>
+              <b-input
+                :disabled="profile.type != 1"
+                v-model="product.description"
+                required
+              ></b-input>
             </b-field>
           </div>
           <div class="w-1/3 mt-4 pr-4">
             <b-field label="Proveedor">
               <b-select
+                :disabled="profile.type != 1"
                 v-model="product.supplier_id"
                 placeholder="Selecciona un proveedor"
                 expanded
@@ -21,13 +26,16 @@
                   v-for="option in suppliers"
                   :value="option.id"
                   :key="option.id"
-                >{{ option.name }}</option>
+                >
+                  {{ option.name }}
+                </option>
               </b-select>
             </b-field>
           </div>
           <div class="w-1/3 mt-4 pr-4">
             <b-field label="Departamento">
               <b-select
+                :disabled="profile.type != 1"
                 v-model="product.department_id"
                 placeholder="Selecciona un departamento"
                 expanded
@@ -36,7 +44,9 @@
                   v-for="option in departments"
                   :value="option.id"
                   :key="option.id"
-                >{{ option.name }}</option>
+                >
+                  {{ option.name }}
+                </option>
               </b-select>
             </b-field>
           </div>
@@ -47,17 +57,31 @@
           </div>
           <div class="w-1/4 pr-4 mt-4">
             <b-field label="Costo base">
-              <b-input type="number" min="0.01" step="0.01" v-model="product.base_cost" required></b-input>
+              <b-input
+                :disabled="profile.type != 1"
+                type="number"
+                min="0.01"
+                step="0.01"
+                v-model="product.base_cost"
+                required
+              ></b-input>
             </b-field>
           </div>
           <div class="w-1/4 pr-4 mt-4">
             <b-field label="% de ganancia">
-              <b-input type="number" step="0.01" v-model="product.profit" required></b-input>
+              <b-input
+                :disabled="profile.type != 1"
+                type="number"
+                step="0.01"
+                v-model="product.profit"
+                required
+              ></b-input>
             </b-field>
           </div>
           <div class="w-1/4 pr-4 mt-4">
             <b-field label="Precio sugerido">
               <b-input
+                :disabled="profile.type != 1"
                 type="number"
                 min="0.01"
                 step="0.01"
@@ -69,11 +93,22 @@
           </div>
           <div class="w-1/4 mt-4">
             <b-field label="Precio de venta">
-              <b-input type="number" min="0.01" step="0.01" v-model="product.price" required></b-input>
+              <b-input
+                :disabled="profile.type != 1"
+                type="number"
+                min="0.01"
+                step="0.01"
+                v-model="product.price"
+                required
+              ></b-input>
             </b-field>
           </div>
           <div v-if="product.new" class="w-full mt-4 text-red-600">
-            <p v-if="product.inventory_cost > 0">El costo base según inventario es de ${{product.inventory_cost.toFixed(2)}}</p>
+            <p v-if="product.inventory_cost > 0">
+              El costo base según inventario es de ${{
+                product.inventory_cost.toFixed(2)
+              }}
+            </p>
             <p v-else>Sin registros en inventario</p>
           </div>
         </div>
@@ -85,7 +120,12 @@
           <div class="w-1/2 md:w-full xl:w-1/2 py-4 px-4">
             <section>
               <b-field>
-                <b-upload v-model="file" drag-drop expanded>
+                <b-upload
+                  :disabled="profile.type != 1"
+                  v-model="file"
+                  drag-drop
+                  expanded
+                >
                   <section class="section">
                     <div class="content has-text-centered">
                       <p>
@@ -96,7 +136,14 @@
                   </section>
                 </b-upload>
               </b-field>
-              <b-button v-if="url" type="is-primary" expanded @click="url = undefined">Limpiar</b-button>
+              <b-button
+                :disabled="profile.type != 1"
+                v-if="url"
+                type="is-primary"
+                expanded
+                @click="url = undefined"
+                >Limpiar</b-button
+              >
             </section>
           </div>
         </div>
@@ -105,12 +152,19 @@
         <div class="p-2 w-full">
           <b-field>
             <b-button
+              :disabled="profile.type != 1"
               class="w-1/12 mr-5"
               :type="product.new ? 'is-warning' : 'is-success'"
               native-type="submit"
-            >{{ product.new ? 'Actualizar' : 'Crear' }}</b-button>
+              >{{ product.new ? "Actualizar" : "Crear" }}</b-button
+            >
 
-            <b-button @click="clearProduct()" class="w-1/12" type="is-info">Limpiar</b-button>
+            <b-button
+              @click="clearProduct()"
+              class="w-1/12"
+              type="is-info"
+              >Limpiar</b-button
+            >
           </b-field>
         </div>
       </div>
@@ -129,8 +183,18 @@
         striped
       >
         <b-table-column field="image_path" label="Imagen" v-slot="props">
-          <img v-if="props.row.image_path" :src="props.row.image_path" width="100" height="100" />
-          <img v-else src="@/assets/images/default.jpg" width="100" height="100" />
+          <img
+            v-if="props.row.image_path"
+            :src="props.row.image_path"
+            width="100"
+            height="100"
+          />
+          <img
+            v-else
+            src="@/assets/images/default.jpg"
+            width="100"
+            height="100"
+          />
         </b-table-column>
         <b-table-column
           field="id"
@@ -139,55 +203,80 @@
           width="40"
           sortable
           v-slot="props"
-        >{{ props.row.id }}</b-table-column>
+          >{{ props.row.id }}</b-table-column
+        >
         <b-table-column
           field="description"
           :searchable="true"
           label="Descripción"
           v-slot="props"
-        >{{ props.row.description }}</b-table-column>
+          >{{ props.row.description }}</b-table-column
+        >
         <b-table-column
           field="department.name"
           :searchable="true"
           label="Departamento"
           v-slot="props"
-        >{{ props.row.department.name }}</b-table-column>
+          >{{ props.row.department.name }}</b-table-column
+        >
         <b-table-column
           field="supplier.name"
           :searchable="true"
           label="Proveedor"
           v-slot="props"
-        >{{ props.row.supplier.name }}</b-table-column>
+          >{{ props.row.supplier.name }}</b-table-column
+        >
         <b-table-column
           field="profit"
           :searchable="true"
           label="Costo Base Ingresado"
           v-slot="props"
-        >${{ props.row.base_cost.toFixed(2)}}</b-table-column>
+          >${{ props.row.base_cost.toFixed(2) }}</b-table-column
+        >
         <b-table-column
           field="profit"
           :searchable="true"
           label="% de ganancia"
           v-slot="props"
-        >{{ props.row.profit}} %</b-table-column>
+          >{{ props.row.profit }} %</b-table-column
+        >
         <b-table-column
           field="profit"
           :searchable="true"
           label="Costo Según Inventario"
           v-slot="props"
-        >${{ props.row.inventory_cost.toFixed(2)}}</b-table-column>
-        <b-table-column field="price" :searchable="true" label="Precio de venta" v-slot="props">
-          <b-tag class="font-bold uppercase" type="is-success">${{ props.row.price.toFixed(2)}}</b-tag>
+          >${{ props.row.inventory_cost.toFixed(2) }}</b-table-column
+        >
+        <b-table-column
+          field="price"
+          :searchable="true"
+          label="Precio de venta"
+          v-slot="props"
+        >
+          <b-tag class="font-bold uppercase" type="is-success"
+            >${{ props.row.price.toFixed(2) }}</b-tag
+          >
         </b-table-column>
         <b-table-column
           field="stock"
           :searchable="true"
           label="Stock"
           v-slot="props"
-        >{{ props.row.stock}}</b-table-column>
+          >{{ props.row.stock }}</b-table-column
+        >
         <b-table-column label="Acciónes" v-slot="props">
-          <b-button @click="setProduct(props.row)" type="is-warning" class="mb-3" icon-right="eye" />
-          <b-button @click="handleDelete(props.row)" type="is-danger" icon-right="delete" />
+          <b-button
+            @click="setProduct(props.row)"
+            type="is-warning"
+            class="mb-3"
+            icon-right="eye"
+          />
+          <b-button
+            :disabled="profile.type != 1"
+            @click="handleDelete(props.row)"
+            type="is-danger"
+            icon-right="delete"
+          />
         </b-table-column>
       </b-table>
     </div>
@@ -216,6 +305,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("auth", ["profile"]),
     ...mapState("products", ["products"]),
     ...mapState("departments", ["departments"]),
     ...mapState("suppliers", ["suppliers"]),

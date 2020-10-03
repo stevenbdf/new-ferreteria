@@ -52,7 +52,6 @@ const routes = [
     meta: {
       layout: 'app',
       requiresAuth: true,
-      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Transacciones.vue')
   },
@@ -62,7 +61,6 @@ const routes = [
     meta: {
       layout: 'app',
       requiresAuth: true,
-      type: true
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Productos.vue')
   },
