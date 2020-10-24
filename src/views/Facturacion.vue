@@ -330,7 +330,11 @@
               placeholder="Selecciona metodo"
               expanded
               :disabled="!process"
-            ></b-select>
+            >
+            <option value="1">Efectivo</option>
+            <option value="2">Tarjeta Credito/Debito</option>
+            <option value="3">Cheque</option>
+            </b-select>
           </b-field>
           <b-field label="No.Factura">
             <b-input

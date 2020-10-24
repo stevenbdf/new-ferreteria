@@ -8,6 +8,14 @@ export default {
   async fetch({ commit }) {
     try {
       let { data } = await axios.fetch(`${api}`)
+      if (!token.getOfficeId()) {
+        token.setOfficeId(JSON.stringify(
+          {
+            id: data[0].id,
+            index: 0
+          }
+        ))
+      }
       commit(types.FETCH_OFFICES, data)
     } catch (e) {
       commit(types.FETCH_OFFICES_ERR)

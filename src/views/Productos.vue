@@ -476,6 +476,7 @@ export default {
       };
       this.file = {};
       this.url = undefined;
+      this.calcNextId();
     },
     calcPrice() {
       let price =

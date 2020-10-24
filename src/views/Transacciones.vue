@@ -32,7 +32,8 @@
           <b-field label="Sucursal">
             <b-select
               :disabled="profile.type != 1"
-              v-model="transaction.office_id"
+              :value="transaction.office_id"
+              @input="handleOfficeChange"
               placeholder="Selecciona una sucursal"
               expanded
             >
@@ -122,7 +123,7 @@
       <div class="flex justify-end">
         <a :href="exportUrl" target="_blank">
           <b-field>
-            <b-button v-if="transactions.length" type="is-success"
+            <b-button v-if="transactions.length && !isLoading" type="is-success"
               >Exportar a excel</b-button
             >
           </b-field>
@@ -233,6 +234,7 @@
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
+import token from "@/services/TokenService";
 export default {
   data: () => ({
     //Transaction
@@ -249,6 +251,7 @@ export default {
     ...mapState("transactions", ["transactions"]),
     ...mapState("products", ["products"]),
     ...mapState("offices", ["offices"]),
+    ...mapGetters("offices", ["office_id"]),
     searchProducts() {
       return this.products.filter((product) => {
         return (
@@ -264,13 +267,17 @@ export default {
     this.isLoading = true;
     await this.fetchProducts();
     await this.fetchOffices();
-    await this.fetchTransactions();
+    let office = JSON.parse(token.getOfficeId());
+    this.transaction = {
+      office_id: office.id,
+    };
+    await this.fetchTransactions({ office_id: this.transaction.office_id });
     this.validateDeleteTransaction();
     this.isLoading = false;
   },
   methods: {
     ...mapActions("transactions", {
-      fetchTransactions: "fetch",
+      fetchTransactions: "fetchByOffice",
       createTransaction: "store",
       updateTransaction: "update",
       destroyTransaction: "destroy",
@@ -283,6 +290,24 @@ export default {
     }),
     setTransaction(transaction) {
       this.transaction = { ...transaction };
+    },
+    async handleOfficeChange(newOfficeId) {
+      this.transaction.office_id = newOfficeId;
+      try {
+        this.isLoading = true;
+        await this.fetchTransactions({ office_id: this.transaction.office_id });
+        this.validateDeleteTransaction();
+      } catch (error) {
+        console.error(error);
+        this.$buefy.toast.open({
+          message: "No se pudo cargar inventario de la sucursal",
+          position: "is-bottom-left",
+          duration: 4600,
+          type: "is-danger",
+        });
+      } finally {
+        this.isLoading = false;
+      }
     },
     async handleCreate() {
       try {
@@ -358,7 +383,6 @@ export default {
     validateDeleteTransaction() {
       this.transaction = {
         ...this.transaction,
-        office_id: this.offices[0].id,
         type: "Entrada",
       };
 

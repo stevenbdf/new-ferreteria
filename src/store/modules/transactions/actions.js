@@ -6,7 +6,7 @@ const api = '/transactions'
 export default {
   async fetch({ commit }) {
     try {
-      let {data} = await axios.fetch(`${api}`)
+      let { data } = await axios.fetch(`${api}`)
       commit(types.FETCH_TRANSACTIONS, data)
     } catch (e) {
       commit(types.FETCH_TRANSACTIONS_ERR)
@@ -14,10 +14,11 @@ export default {
     }
   },
 
-  async index({ commit },credentials) {
+  async fetchByOffice({ commit }, payload) {
     try {
-      let {data} = await axios.fetch(`${api}/${credentials.id}`)
-      commit(types.FETCH_TRANSACTION, data)
+      let { data } = await axios.fetch(`${api}/office/${payload.office_id}`)
+      console.log(data)
+      commit(types.FETCH_TRANSACTIONS, data)
     } catch (e) {
       commit(types.FETCH_TRANSACTION_ERR)
       throw e
@@ -26,7 +27,7 @@ export default {
 
   async store({ commit }, credentials) {
     try {
-      let {data} = await axios.store(`${api}`,credentials)
+      let { data } = await axios.store(`${api}`, credentials)
       commit(types.STORE_TRANSACTIONS, data)
       return data
     } catch (e) {
@@ -36,7 +37,7 @@ export default {
 
   async update({ commit }, credentials) {
     try {
-      await axios.update(`${api}/${credentials.id}`,credentials)
+      await axios.update(`${api}/${credentials.id}`, credentials)
       commit(types.UPDATE_TRANSACTIONS, credentials)
     } catch (e) {
       throw e

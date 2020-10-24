@@ -119,7 +119,6 @@ export default {
   }),
   computed: {
     ...mapGetters("auth", ["profile"]),
-    ...mapGetters("offices", ["office_id"]),
     ...mapState("offices", ["offices"]),
   },
   async created() {
@@ -130,7 +129,6 @@ export default {
     await this.fetchOffices();
     let office = JSON.parse(token.getOfficeId());
     this.currentOfficeId = office.id;
-    console.log(office.id)
   },
   methods: {
     ...mapActions("users", {
@@ -167,6 +165,10 @@ export default {
         id: this.currentOfficeId,
         index: currentIndex
       })
+      this.$buefy.toast.open({
+          message: "Sucursal actual actualizada",
+          type: "is-success",
+        });
     }
   },
 };
