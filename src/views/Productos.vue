@@ -159,10 +159,7 @@
               >{{ product.new ? "Actualizar" : "Crear" }}</b-button
             >
 
-            <b-button
-              @click="clearProduct()"
-              class="w-1/12"
-              type="is-info"
+            <b-button @click="clearProduct()" class="w-1/12" type="is-info"
               >Limpiar</b-button
             >
           </b-field>
@@ -363,12 +360,16 @@ export default {
           price,
         } = this.product;
 
+        let profitCalculated = price / base_cost;
+
+        profitCalculated = (profitCalculated - 1) * 100;
+
         formData.append("id", id);
         formData.append("department_id", department_id);
         formData.append("supplier_id", supplier_id);
         formData.append("description", description);
         formData.append("base_cost", base_cost);
-        formData.append("profit", profit);
+        formData.append("profit", profitCalculated);
         formData.append("price", price);
 
         if (this.file.name) {
