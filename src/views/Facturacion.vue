@@ -571,7 +571,7 @@ export default {
         if (this.fact_type == 1) {
           this.sub_total += this.product.price * this.product.quantity;
           this.iva += this.product.price * 0.13 * this.product.quantity;
-          this.total += this.product.price * 0.87 * this.product.quantity;
+          this.total += this.sub_total;
         } else {
           this.sub_total += this.product.price * this.product.quantity;
           this.iva = 0;
@@ -631,6 +631,7 @@ export default {
                 user_id: this.profile.id,
                 details: this.sale_products,
               });
+              window.open(`${process.env.VUE_APP_BASE_URL}/invoices/pdf/${this.noFact}`);
               break;
             case 1:
               await this.storeFiscalCredit({
