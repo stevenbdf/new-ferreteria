@@ -641,6 +641,7 @@ export default {
                 user_id: this.profile.id,
                 details: this.sale_products,
               });
+              window.open(`${process.env.VUE_APP_BASE_URL}/fiscal-credit/pdf/${this.noFact}`);
               break;
             case 2:
               await this.storeQuote({
