@@ -240,7 +240,7 @@ export default {
     //Transaction
     transaction: {},
     isLoading: false,
-    exportUrl: process.env.VUE_APP_BASE_URL + "transactions/export",
+    exportUrl: process.env.VUE_APP_BASE_URL + "/transactions/export",
 
     //Product
     product: {},
