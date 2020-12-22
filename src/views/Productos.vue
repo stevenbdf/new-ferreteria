@@ -437,7 +437,7 @@ export default {
     },
     handleDelete(product) {
       this.$buefy.dialog.confirm({
-        message: `¿Seguro que quieres eliminar a ${product.name}?`,
+        message: `¿Seguro que quieres eliminar el producto ${product.description}?`,
         confirmText: "Si, eliminar",
         type: "is-danger",
         hasIcon: true,
