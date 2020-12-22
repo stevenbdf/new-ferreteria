@@ -113,9 +113,7 @@
                 type="is-info"
                 @click="handleContinue()"
                 :disabled="
-                  customer.full_name === undefined
-                    ? true
-                    : customer.full_name.trim() === ''
+                  customer.id === undefined
                     ? true
                     : false || process
                 "
@@ -428,6 +426,7 @@ export default {
   async created() {
     this.isLoading = true;
     await this.fetchCustomers();
+    console.log(this.customers);
     await this.fetchProducts();
     this.isLoading = false;
   },
@@ -485,6 +484,7 @@ export default {
       try {
         let data = await this.createCustomer(datos);
         this.search = data.full_name;
+        this.customer = { ...data};
         this.$buefy.toast.open({
           message: "Cliente creado",
           type: "is-success",
