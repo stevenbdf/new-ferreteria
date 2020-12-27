@@ -92,6 +92,15 @@ const routes = [
       requiresAuth: true,
     },
     component: () => import(/* webpackChunkName: "about" */ '../views/Configuraciones.vue')
+  },
+  {
+    path: '/cortes',
+    name: 'cortes',
+    meta: {
+      layout: 'app',
+      requiresAuth: true,
+    },
+    component: () => import(/* webpackChunkName: "about" */ '../views/Cortes.vue')
   }
 ]
 export default routes;

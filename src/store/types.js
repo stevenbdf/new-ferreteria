@@ -82,3 +82,9 @@ export const FETCH_USER_ERR = 'Fetch Users index error'
 export const STORE_USERS = 'Store Users successfully'
 export const UPDATE_USERS = 'Update Users successfully'
 export const DESTROY_USERS = 'Destroy Users successfully'
+
+// Cashouts
+export const FETCH_CASHOUTS = 'Fetch Cashouts successfully'
+export const FETCH_CASHOUTS_ERR = 'Fetch Cashouts error'
+export const STORE_CASHOUTS = 'Store Cashouts successfully'
+export const FETCH_CURRENT_AMOUNT = 'Fetch Current Amount successfully'

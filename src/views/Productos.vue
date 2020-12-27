@@ -125,6 +125,7 @@
                   v-model="file"
                   drag-drop
                   expanded
+                  class="h-full"
                 >
                   <section class="section">
                     <div class="content has-text-centered">

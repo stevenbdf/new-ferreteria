@@ -13,6 +13,7 @@ import suppliersModule from './modules/suppliers'
 import departmentsModule from './modules/departments'
 import transactionsModule from './modules/transactions'
 import usersModule from './modules/users'
+import cashOutModule from './modules/cashOuts'
 
 const debug = process.env.NODE_ENV !== 'production'
 
@@ -30,7 +31,8 @@ const createStore = new Vuex.Store({
     suppliers: suppliersModule,
     departments: departmentsModule,
     transactions: transactionsModule,
-    users: usersModule
+    users: usersModule,
+    cashouts: cashOutModule
   },
   strict: debug,
 });

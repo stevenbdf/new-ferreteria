@@ -48,6 +48,14 @@
         <b-navbar-item
           tag="router-link"
           class="mr-5"
+          :to="{ path: '/cortes' }"
+        >
+          <b-icon icon="currency-usd" size="is-small" class="mr-2"></b-icon
+          >Cortes de caja
+        </b-navbar-item>
+        <b-navbar-item
+          tag="router-link"
+          class="mr-5"
           :to="{ path: '/proveedores' }"
         >
           <b-icon icon="car-pickup" size="is-small" class="mr-2"></b-icon
@@ -84,7 +92,7 @@
         size="is-small"
         class="mr-2 my-auto"
       ></b-icon>
-      <b-navbar-dropdown :label="profile.full_name">
+      <b-navbar-dropdown :label="profile.full_name" class="mr-20">
         <b-navbar-item tag="router-link" :to="{ path: '/configuraciones' }">
           <b-icon icon="cog" size="is-small" class="mr-2"></b-icon
           >Configuraciónes
