@@ -167,6 +167,17 @@
         </div>
       </div>
     </form>
+        <div class="px-2 mt-2">
+      <div class="flex justify-end">
+        <a :href="exportUrl" target="_blank">
+          <b-field>
+            <b-button v-if="products.length && !isLoading" type="is-success"
+              >Exportar a excel</b-button
+            >
+          </b-field>
+        </a>
+      </div>
+    </div>
     <div class="px-2 mt-5">
       <b-table
         ref="instTable"
@@ -287,6 +298,7 @@ export default {
     product: {},
     file: {},
     url: undefined,
+    exportUrl: process.env.VUE_APP_BASE_URL + "/products/export",
     isLoading: false,
   }),
   watch: {
