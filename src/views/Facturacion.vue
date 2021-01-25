@@ -389,6 +389,7 @@ export default {
     ...mapGetters("auth", ["profile"]),
     ...mapState("customers", ["customers"]),
     ...mapState("products", ["products"]),
+    ...mapState("quotes", ["quotes"]),
     ...mapGetters("offices", ["office_id", "fact_invoice", "fact_credential"]),
 
     minDate() {
@@ -650,6 +651,7 @@ export default {
                 user_id: this.profile.id,
                 details: this.sale_products,
               });
+              window.open(`${process.env.VUE_APP_BASE_URL}/quotes/pdf/${this.quotes[this.quotes.length - 1].id}`);
               break;
           }
           this.$buefy.toast.open({
