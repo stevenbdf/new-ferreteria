@@ -558,31 +558,38 @@ export default {
     },
     handleAdd() {
       let val = false;
-      this.sale_products.forEach((ele) => {
-        if (ele.id === this.product.id) {
-          val = true;
-        }
-      });
-      if (!val) {
-        this.sale_products.push({
-          product_id: this.product.id,
-          sale_price: this.product.price,
-          ...this.product,
-        });
-        if (this.fact_type == 1) {
-          this.sub_total += this.product.price * this.product.quantity;
-          this.iva += this.product.price * 0.13 * this.product.quantity;
-          this.total += this.sub_total;
-        } else {
-          this.sub_total += this.product.price * this.product.quantity;
-          this.iva = 0;
-          this.total = this.sub_total;
-        }
+      if (this.sale_products.length == 11 ) {
+          this.$buefy.toast.open({
+            message: "Has superado el limite de productos en una factura.",
+            type: "is-warning",
+          });
       } else {
-        this.$buefy.toast.open({
-          message: "Producto ya existente!",
-          type: "is-warning",
+        this.sale_products.forEach((ele) => {
+          if (ele.id === this.product.id) {
+            val = true;
+          }
         });
+        if (!val) {
+          this.sale_products.push({
+            product_id: this.product.id,
+            sale_price: this.product.price,
+            ...this.product,
+          });
+          if (this.fact_type == 1) {
+            this.sub_total += this.product.price * this.product.quantity;
+            this.iva += this.product.price * 0.13 * this.product.quantity;
+            this.total += this.sub_total;
+          } else {
+            this.sub_total += this.product.price * this.product.quantity;
+            this.iva = 0;
+            this.total = this.sub_total;
+          }
+        } else {
+          this.$buefy.toast.open({
+            message: "Producto ya existente!",
+            type: "is-warning",
+          });
+        }
       }
       this.product = {};
       this.search_product = "";

@@ -72,7 +72,7 @@
         >
         <b-table-column label="Acciónes" v-slot="props">
           <b-button
-            @click="handleDelete(props.row)"
+            @click="exportCashOut(props.row.id)"
             type="is-success"
             icon-right="file-document"
           />
@@ -117,6 +117,9 @@ export default {
         });
       }
     },
+    exportCashOut(id) {
+      window.open(`${process.env.VUE_APP_BASE_URL}/cashOut/${id}/export`)
+    }
   },
 };
 </script>
